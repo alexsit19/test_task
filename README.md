@@ -1,5 +1,5 @@
 ## Flutter test_task
-This app is a client-server application, which use the API from [https://jsonplaceholder.typicode.com/] (https://jsonplaceholder.typicode.com/).
+This app is a client-server application, which use the API from [https://jsonplaceholder.typicode.com/](https://jsonplaceholder.typicode.com/).
 
 This application shows list of posts from API on the home screen, and shows details screen with a single post, when tap on the item in the list.
 
