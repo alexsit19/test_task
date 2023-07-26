@@ -1,16 +1,21 @@
-# test_task
+## Flutter test_task
+This app is a client-server application, which use the API from [https://jsonplaceholder.typicode.com/] (https://jsonplaceholder.typicode.com/).
 
-A new Flutter project.
+This application shows list of posts from API on the home screen, and shows details screen with a single post, when tap on the item in the list.
 
-## Getting Started
+Clean architecture and pattern repository was used to create the application.
 
-This project is a starting point for a Flutter application.
+Also in this app applied next technologies:
+* http
+* Flutter BLoC
+* Equtable
 
-A few resources to get you started if this is your first Flutter project:
+<p align="justify">
+<img src="screenshots/1.png" width=150>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<img src="screenshots/2.png" width=150>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="screenshots/3.png" width=150>
+</p>
+
+This app has own set of errors, and can help user understend the problem.
