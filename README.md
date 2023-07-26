@@ -8,14 +8,14 @@ Clean architecture and pattern repository was used to create the application.
 Also in this app applied next technologies:
 * http
 * Flutter BLoC
-* Equtable
+* Equatable
 
 <p align="justify">
-<img src="screenshots/1.png" width=150>
+<img src="screenshots/1.png" width=200>
 
-<img src="screenshots/2.png" width=150>
+<img src="screenshots/2.png" width=200>
 
-<img src="screenshots/3.png" width=150>
+<img src="screenshots/3.png" width=200>
 </p>
 
-This app has own set of errors, and can help user understend the problem.
+This app has own set of errors, and can help user understand the problem.
