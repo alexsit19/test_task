@@ -8,7 +8,6 @@ Clean architecture and pattern repository was used to create the application.
 Also in this app applied next technologies:
 * http
 * Flutter BLoC
-* Equatable
 
 <p align="justify">
 <img src="screenshots/1.png" width=200>
