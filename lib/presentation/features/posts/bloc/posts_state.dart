@@ -1,27 +1,19 @@
-import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:test_task/domain/post.dart';
 
-enum Loading { loading, loaded }
+@immutable
+sealed class PostsState {}
 
-class PostsState extends Equatable {
-  final Loading loading;
+final class Loading extends PostsState {}
+
+final class Success extends PostsState {
+  final List<Post>? posts;
+
+  Success({required this.posts});
+}
+
+final class Error extends PostsState {
   final Exception? error;
-  final List<Post> posts;
 
-  const PostsState({required this.loading, this.error, this.posts = const <Post>[]});
-
-  PostsState copyWith({
-    required Loading loading,
-    Exception? error,
-    List<Post>? posts,
-  }) {
-    return PostsState(
-      loading: loading,
-      posts: posts ?? this.posts,
-      error: error,
-    );
-  }
-
-  @override
-  List<Object?> get props => [loading, posts, error];
+  Error({required this.error});
 }

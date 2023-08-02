@@ -20,29 +20,33 @@ class PostsScreen extends StatelessWidget {
         title: const Text("Messages"),
       ),
       body: BlocProvider(
-        create: (_) => PostsBloc(repository: PostRepository(httpClient: http.Client()))..add(GetPosts()),
-        child: BlocBuilder<PostsBloc, PostsState>(
-          builder: (context, state) {
-            Widget child = const CenterProgressIndicator();
-            if (state.posts.isNotEmpty) {
-              child = PostsList(posts: state.posts);
+        create: (_) => PostsBloc(repository: PostRepository(httpClient: http.Client()))..add(GetPostsEvent()),
+        child: BlocListener<PostsBloc, PostsState>(
+          listener: (context, state) {
+            if (state is Error) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(context.translateException(state.error)),
+                ),
+              );
             }
-            if (state.error != null) {
-              child = const ErrorPage();
-              var snackBar = makeSnackBar(
-                  error: context.translateException(state.error),
-                  action: () {
-                    context.read<PostsBloc>().add(GetPosts());
-                  });
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              });
-            }
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: child,
-            );
           },
+          child: BlocBuilder<PostsBloc, PostsState>(
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: switch (state) {
+                  Loading() => const CenterProgressIndicator(),
+                  Success() => PostsList(posts: state.posts ?? []),
+                  Error() => ErrorPage(
+                      action: () {
+                        context.read<PostsBloc>().add(GetPostsEvent());
+                      },
+                    ),
+                },
+              );
+            },
+          ),
         ),
       ),
     );

@@ -1,26 +1,17 @@
-import 'package:equatable/equatable.dart';
-import 'package:test_task/presentation/features/posts/bloc/posts_state.dart';
+import 'package:flutter/material.dart';
 import 'package:test_task/domain/post.dart';
 
-class SinglePostState extends Equatable {
-  final Loading loading;
-  final Exception? error;
+@immutable
+sealed class SinglePostState {}
+
+final class Loading extends SinglePostState {}
+
+final class Success extends SinglePostState {
   final Post? post;
+  Success({required this.post});
+}
 
-  const SinglePostState({required this.loading, this.error, this.post});
-
-  SinglePostState copyWith({
-    required Loading loading,
-    Exception? error,
-    Post? post,
-  }) {
-    return SinglePostState(
-      loading: loading,
-      post: post ?? this.post,
-      error: error,
-    );
-  }
-
-  @override
-  List<Object?> get props => [loading, post, error];
+final class Error extends SinglePostState {
+  final Exception? error;
+  Error({required this.error});
 }

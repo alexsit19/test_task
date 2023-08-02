@@ -28,34 +28,46 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
         title: appBarTitleText,
       ),
       body: BlocProvider(
-        create: (_) => SinglePostBloc(repository: PostRepository(httpClient: http.Client()))..add(GetPost(id: postId)),
-        child: BlocBuilder<SinglePostBloc, SinglePostState>(
-          builder: (context, state) {
-            Widget child = const CenterProgressIndicator();
-            if (state.post != null) {
-              Future.delayed(Duration.zero, () {
-                setState(() {
-                  appBarTitleText = Text(state.post?.title ?? "");
-                });
-              });
-              child = SinglePostContent(post: state.post);
+        create: (_) =>
+            SinglePostBloc(repository: PostRepository(httpClient: http.Client()))..add(GetSinglePostEvent(id: postId)),
+        child: BlocListener<SinglePostBloc, SinglePostState>(
+          listener: (context, state) {
+            if (state is Error) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(context.translateException(state.error)),
+                ),
+              );
             }
-            if (state.error != null) {
-              child = const ErrorPage();
-              var snackBar = makeSnackBar(
-                  error: context.translateException(state.error),
-                  action: () {
-                    context.read<SinglePostBloc>().add(GetPost(id: postId));
-                  });
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              });
-            }
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: child,
-            );
           },
+          child: BlocBuilder<SinglePostBloc, SinglePostState>(
+            builder: (context, state) {
+              if (state is Success) {
+                Future.delayed(
+                  Duration.zero,
+                  () {
+                    setState(
+                      () {
+                        appBarTitleText = Text(state.post?.title ?? "");
+                      },
+                    );
+                  },
+                );
+              }
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: switch (state) {
+                  Loading() => const CenterProgressIndicator(),
+                  Success() => SinglePostContent(post: state.post),
+                  Error() => ErrorPage(
+                      action: () {
+                        context.read<SinglePostBloc>().add(GetSinglePostEvent(id: postId));
+                      },
+                    ),
+                },
+              );
+            },
+          ),
         ),
       ),
     );

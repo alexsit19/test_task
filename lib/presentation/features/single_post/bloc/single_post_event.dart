@@ -1,12 +1,10 @@
-import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
-class SinglePostEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
+@immutable
+sealed class SinglePostEvent {}
 
-class GetPost extends SinglePostEvent {
+final class GetSinglePostEvent extends SinglePostEvent {
   final int? id;
-
-  GetPost({required this.id});
+  GetSinglePostEvent({required this.id});
 }
+

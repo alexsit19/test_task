@@ -7,19 +7,19 @@ import 'package:test_task/domain/repository.dart';
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final Repository repository;
 
-  PostsBloc({required this.repository}) : super(const PostsState(loading: Loading.loading)) {
-    on<GetPosts>(_mapGetPostsEventToState);
+  PostsBloc({required this.repository}) : super(Loading()) {
+    on<GetPostsEvent>(_mapGetPostsEventToState);
   }
 
-  Future<void> _mapGetPostsEventToState(GetPosts event, Emitter<PostsState> emit) async {
-    emit(state.copyWith(loading: Loading.loading));
+  Future<void> _mapGetPostsEventToState(GetPostsEvent event, Emitter<PostsState> emit) async {
+    emit(Loading());
     try {
       var posts = await repository.getPosts();
-      emit(state.copyWith(loading: Loading.loaded, posts: posts, error: null));
+      emit(Success(posts: posts));
     } on DataRetrieveException catch (error) {
-      emit(state.copyWith(loading: Loading.loaded, error: error));
+      emit(Error(error: error));
     } on NoConnectionException catch (error) {
-      emit(state.copyWith(loading: Loading.loaded, error: error));
+      emit(Error(error: error));
     } catch (error) {
       rethrow;
     }

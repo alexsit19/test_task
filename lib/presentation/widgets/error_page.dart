@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ErrorPage extends StatelessWidget {
-  const ErrorPage({Key? key}) : super(key: key);
+  final Function action;
+  const ErrorPage({Key? key, required this.action}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Center();
+    return Center(
+      child: ElevatedButton(
+          onPressed: () {
+            action();
+          },
+          child: const Text("Retry"),
+      ),
+    );
   }
 }

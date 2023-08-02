@@ -1,8 +1,6 @@
-import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
-class PostsEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
+@immutable
+sealed class PostsEvent {}
 
-class GetPosts extends PostsEvent {}
+final class GetPostsEvent extends PostsEvent {}
